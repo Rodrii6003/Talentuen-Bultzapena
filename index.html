@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Talentuen bultzapena</title>
+	    <script>
+	function validarNumeros(e, campo) {
+	  var key = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+	  var valor = campo.value;
+	  var caracteres = "0123456789.";
+	  if (key == 8) {
+	    return true;
+	  }
+	  if (caracteres.indexOf(String.fromCharCode(key)) != -1) {
+	    if (key == 46 && valor.indexOf(".") != -1) {
+	      return false;
+	    }else {
+	      return true;
+	    }
+	  } else {
+	    return false;
+	  }
+	}
+	</script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+  <body>
+    <h1>Talentuen bultzapena</h1>
+    <form>
+     <div class="section">
+        <div class="input-group">
+          <label for="mutila">Mutila</label>
+          <input type="radio" id="mutila" name="genero" value="mutila">
+        </div>
+        <div class="input-group">
+          <label for="neska">Neska</label>
+          <input type="radio" id="neska" name="genero" value="neska">
+        </div>
+      </div>
+      <div class="section">
+        <h2>Erresistentzia</h2>
+        <div class="input-group">
+          <label for="erresistentzia-1">Course Navette testa:</label>
+          <input type="text" id="erresistentzia-1" name="erresistentzia-1" onkeypress="return validarNumeros(event, this);"> 
+        </div>
+        <div class="input-group">
+          <label for="erresistentzia-2">Cooper testa:</label>
+          <input type="text" id="erresistentzia-2" name="erresistentzia-2" onkeypress="return validarNumeros(event, this);">
+        </div>
+      </div>
+      <div class="section">
+        <h2>Abiadura</h2>
+        <div class="input-group">
+          <label for="abiadura-1">10x5m:</label>
+          <input type="text" id="abiadura-1" name="abiadura-1" onkeypress="return validarNumeros(event, this);">
+        </div>
+        <div class="input-group">
+          <label for="abiadura-2">50m:</label>
+          <input type="text" id="abiadura-2" name="abiadura-2" onkeypress="return validarNumeros(event, this);">
+        </div>
+      </div>
+      <div class="section">
+        <h2>Flexibilitatea</h2>
+        <div class="input-group">
+          <label for="flexibilitatea-1">Bularreko flexioa:</label>
+          <input type="text" id="flexibilitatea-1" name="flexibilitatea-1" onkeypress="return validarNumeros(event, this);">
+        </div>
+      </div>
+      <div class="section">
+        <h2>Indarra</h2>
+        <div class="input-group">
+          <label for="indarra-1">Salto horizontala:</label>
+          <input type="text" id="indarra-1" name="indarra-1" onkeypress="return validarNumeros(event, this);">
+        </div>
+        <div class="input-group">
+          <label for="indarra-2">Baloi medizinalaren jaurtiketa:</label>
+          <input type="text" id="indarra-2" name="indarra-2" onkeypress="return validarNumeros(event, this);">
+        </div>
+      </div>
+     <button type="button" id="guardar-btn" onclick="mostrarResultados()">Guardar</button>
+     <div id="resultados-container"></div>
+    </form>
+	    <script>
+	    
+	    	// Definir una función para calcular la distancia euclidiana entre dos vectores
+	function euclideanDistance(v1, v2) {
+	  const n = v1.length;
+	  let d = 0;
+	  for (let i = 0; i < n; i++) {
+	    d += (v1[i] - v2[i]) ** 2;
+	  }
+	  return Math.sqrt(d);
+	}
+	
+	//Definir rangos notas
+	
+	 
+
+	// Definir un objeto con los datos de los deportes
+	const deportes = [
+	  {
+	    nombre: "Futbola",
+	    valores: [9, 8, 6, 7]
+	  },
+	  {
+	    nombre: "Eskalada",
+	    valores: [9, 6, 8, 9]
+	  },
+	  {
+	    nombre: "Yoga",
+	    valores: [6, 4, 9, 8]
+	  },
+	  {
+	    nombre: "Pin-pon-a",
+	    valores: [6, 8, 6, 7]
+	  },
+	  {
+	    nombre: "Skate-a",
+	    valores: [5, 7, 8, 8]
+	  },
+	  {
+	    nombre: "Errugbia",
+	    valores: [7, 6, 4, 10]
+	  },
+	  {
+	    nombre: "Gimnasia artistikoa",
+	    valores: [6, 6, 10, 9]
+	  },
+	  {
+	    nombre: "Tenisa",
+	    valores: [8, 8, 5, 7]
+	  },
+	  {
+	    nombre: "Boleibola",
+	    valores: [8, 9, 6, 5]
+	  },
+	  {
+	    nombre: "Saskibaloia",
+	    valores: [8, 8, 5, 7]
+	  },
+	  {
+	    nombre: "Igeriketa",
+	    valores: [8, 9, 5, 8]
+	  },
+	  {
+	    nombre: "Taekuondoa",
+	    valores: [5, 7, 10, 9]
+	  },
+	  {
+	    nombre: "Boxeoa",
+	    valores: [7, 9, 8, 9]
+	  },
+	  {
+	    nombre: "Atletismoa",
+	    valores: [9, 10, 7, 5]
+	  }
+	];
+
+	// Definir una función que calcule la similitud entre los valores de entrada y los valores de cada deporte
+	function calcularSimilitud(valores) {
+	  const similitud = deportes.map((deporte) => {
+	    return {
+	      nombre: deporte.nombre,
+	      distancia: euclideanDistance(valores, deporte.valores)
+	    };
+	  }).sort((a, b) => a.distancia - b.distancia);
+
+	  return similitud;
+	}
+
+	    
+	   function calcularNota(valor, gen1, prop) {
+	  // Calcular la nota correspondiente al valor introducido
+	  let notas = [
+	  //mutilak
+	  [
+	    [0,6,10,15,20,25,30,35,40,45], 
+	    [0,6,10,15,20,25,30,35,40,45], 
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45]
+	  ],
+	  //neskak
+	  [
+	    [0,10,20,30,40,50,60,70,80,90],
+	    [0,10,20,30,40,50,60,70,80,90],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45],
+	    [0,6,10,15,20,25,30,35,40,45]
+	  ]
+	];
+	  var gen = Number(gen1)
+	  if (valor >= notas[gen][prop][0] && valor <= notas[gen][prop][1]) {
+	    return 1;
+	  } else if (valor >= notas[gen][prop][1] && valor <= notas[gen][prop][2]) {
+	    return 2;
+	  } else if (valor >= notas[gen][prop][2] && valor <= notas[gen][prop][3]) {
+	    return 3;
+	  } else if (valor >= notas[gen][prop][3] && valor <= notas[gen][prop][4]) {
+	    return 4;
+	  } else if (valor >= notas[gen][prop][4] && valor <= notas[gen][prop][5]) {
+	    return 5;
+	  } else if (valor >= notas[gen][prop][5] && valor <= notas[gen][prop][6])	  {
+	    return 6;
+	  } else if (valor >= notas[gen][prop][6] && valor <= notas[gen][prop][7]) {
+	    return 7;
+	  } else if (valor >= notas[gen][prop][7] && valor <= notas[gen][prop][8]) {
+	    return 8;
+	  } else if (valor >= notas[gen][prop][8] && valor <= notas[gen][prop][9]) {
+	    return 9;
+	  } else  {
+	    return 10;
+	  }
+	  } 
+
+	function mostrarResultados() {
+	
+	  var opciones = document.getElementsByName("genero");
+	  var seleccionado;
+
+	  for(var i=0; i<opciones.length; i++) {
+	    if(opciones[i].checked) {
+	      seleccionado = opciones[i].value;
+	      break;
+	    }
+	  }
+
+	  if (seleccionado == "mutila"){
+	  	seleccionado = 0;
+	  } else if (seleccionado == "neska"){
+	        seleccionado = 1;	
+	  } else{
+	  	alert("Mesedez, aukeratu neska edo mutila");
+	  	return;
+	  }
+	  var resistencia1 = Number(document.getElementsByName("erresistentzia-1")[0].value);
+	  var resistencia2 = Number(document.getElementsByName("erresistentzia-2")[0].value);
+
+	  var abiadura1 = Number(document.getElementsByName("abiadura-1")[0].value);
+	  var abiadura2 = Number(document.getElementsByName("abiadura-2")[0].value);
+	  var flexibilitatea1 = Number(document.getElementsByName("flexibilitatea-1")[0].value);
+	  var indarra1 = Number(document.getElementsByName("indarra-1")[0].value);
+	  var indarra2 = Number(document.getElementsByName("indarra-2")[0].value);
+
+	  var resistencia = (calcularNota(resistencia1,seleccionado,0) + calcularNota(resistencia2,seleccionado,1))/2;
+	  var abiadura = (calcularNota(abiadura1,seleccionado,2) + calcularNota(abiadura2,seleccionado,3))/2;
+	  var flexibilitatea = (calcularNota(flexibilitatea1,seleccionado,4));
+	  var indarra = (calcularNota(indarra1,seleccionado,5) + calcularNota(indarra2,seleccionado,6))/2;
+	
+	  var mensaje = "Resultados:\n\n";
+	  mensaje += "Resistencia: " + resistencia + "\n";
+	  mensaje += "Abiadura: " + abiadura + "\n";
+	  mensaje += "Flexibilitatea: " + flexibilitatea + "\n";
+	  mensaje += "Indarra: " + indarra + "\n";
+	  
+	  alert(mensaje);
+	
+	  
+	  
+	  res = calcularSimilitud([resistencia, abiadura, flexibilitatea, indarra]);
+	  //alert(similitudes.slice(0, 3).map(s => s.nombre));
+	  resultados = res.slice(0, 3).map(s => s.nombre)
+	
+
+	  
+	  // Obtener el elemento contenedor de resultados existente en el DOM
+	const resultadosContainer = document.getElementById("resultados-container");
+	resultadosContainer.innerHTML = "";
+
+	// Crear un nuevo elemento "div" con los resultados
+	const resultadosDiv = document.createElement("div");
+	resultadosDiv.classList.add("resultados");
+	const resultadosTitulo = document.createElement("h2");
+	resultadosTitulo.textContent = "Resultados:";
+	resultadosDiv.appendChild(resultadosTitulo);
+	const resultadosLista = document.createElement("ul");
+	for (let i = 0; i < resultados.length; i++) {
+	  const resultado = resultados[i];
+	  const resultadoLi = document.createElement("li");
+	  resultadoLi.textContent = `${resultado}`;
+	  resultadosLista.appendChild(resultadoLi);
+	}
+	resultadosDiv.appendChild(resultadosLista);
+
+	// Agregar el nuevo elemento "div" al final del contenedor existente en el DOM
+	resultadosContainer.appendChild(resultadosDiv);
+	  
+
+	}  
+	  
+
+      
+
+	
+	
+
+	
+
+	
+	
+	</script>
+	
+
+	
+	
+
+  </body>
+</html>
+
